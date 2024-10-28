@@ -1,1 +1,0 @@
-python -m PyQt5.uic.pyuic -x ana.ui -o QTM.py
