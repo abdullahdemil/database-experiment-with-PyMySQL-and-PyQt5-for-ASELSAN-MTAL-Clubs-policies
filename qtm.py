@@ -50,18 +50,36 @@ class Ui_MainWindow(object):
         self.TumunuGoster_Tablo.setSizePolicy(sizePolicy)
         self.TumunuGoster_Tablo.setMinimumSize(QtCore.QSize(93, 30))
         self.TumunuGoster_Tablo.setStyleSheet("background-color: #c4c4c4;\n"
-"font-size: 14px;")
+"font-size: 14px;\n"
+"border: 3px rgb(1, 3, 56) solid;\n"
+"border-radius: 6px;")
         self.TumunuGoster_Tablo.setObjectName("TumunuGoster_Tablo")
         self.horizontalLayout_2.addWidget(self.TumunuGoster_Tablo)
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(85, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem)
         self.label_7 = QtWidgets.QLabel(self.horizontalLayoutWidget_2)
         self.label_7.setStyleSheet("font-size: 24px;\n"
 "background-color: rgba(0,0,0,0)")
         self.label_7.setObjectName("label_7")
         self.horizontalLayout_2.addWidget(self.label_7)
-        spacerItem1 = QtWidgets.QSpacerItem(190, 30, QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum)
+        spacerItem1 = QtWidgets.QSpacerItem(45, 30, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem1)
+        self.comboBox = QtWidgets.QComboBox(self.horizontalLayoutWidget_2)
+        font = QtGui.QFont()
+        font.setPointSize(-1)
+        self.comboBox.setFont(font)
+        self.comboBox.setAutoFillBackground(False)
+        self.comboBox.setStyleSheet("background-color: #c4c4c4;\n"
+"font-size: 14px;\n"
+"border: 3px rgb(1, 3, 56) solid;\n"
+"border-radius: 6px;")
+        self.comboBox.setMaxVisibleItems(20)
+        self.comboBox.setObjectName("comboBox")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.horizontalLayout_2.addWidget(self.comboBox)
         self.groupBox = QtWidgets.QGroupBox(self.centralwidget)
         self.groupBox.setGeometry(QtCore.QRect(0, 30, 298, 374))
         self.groupBox.setStyleSheet("background-color: #8c8c8c;")
@@ -113,7 +131,9 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.NumaraSorguButton.sizePolicy().hasHeightForWidth())
         self.NumaraSorguButton.setSizePolicy(sizePolicy)
         self.NumaraSorguButton.setStyleSheet("background-color: #c4c4c4;\n"
-"font-size: 17px;")
+"font-size: 22px;\n"
+"border: 3px rgb(1, 3, 56) solid;\n"
+"border-radius: 6px;")
         self.NumaraSorguButton.setAutoRepeatInterval(100)
         self.NumaraSorguButton.setObjectName("NumaraSorguButton")
         self.formLayout.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.NumaraSorguButton)
@@ -145,7 +165,9 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.isimSorguButton.sizePolicy().hasHeightForWidth())
         self.isimSorguButton.setSizePolicy(sizePolicy)
         self.isimSorguButton.setStyleSheet("background-color: #c4c4c4;\n"
-"font-size: 17px;")
+"font-size: 22px;\n"
+"border: 3px rgb(1, 3, 56) solid;\n"
+"border-radius: 6px;")
         self.isimSorguButton.setAutoRepeatInterval(100)
         self.isimSorguButton.setObjectName("isimSorguButton")
         self.formLayout.setWidget(8, QtWidgets.QFormLayout.FieldRole, self.isimSorguButton)
@@ -193,7 +215,9 @@ class Ui_MainWindow(object):
         self.duzenlemeKaydet = QtWidgets.QPushButton(self.centralwidget)
         self.duzenlemeKaydet.setGeometry(QtCore.QRect(600, 420, 121, 31))
         self.duzenlemeKaydet.setStyleSheet("background-color: #c4c4c4;\n"
-"font-size: 14px;")
+"font-size: 14px;\n"
+"border: 3px rgb(1, 3, 56) solid;\n"
+"border-radius: 6px;")
         self.duzenlemeKaydet.setObjectName("duzenlemeKaydet")
         self.line = QtWidgets.QFrame(self.centralwidget)
         self.line.setGeometry(QtCore.QRect(340, 390, 381, 20))
@@ -231,6 +255,10 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "Mentor_Notu"))
         self.TumunuGoster_Tablo.setText(_translate("MainWindow", "Tümünü Göster"))
         self.label_7.setText(_translate("MainWindow", "Öğrenci Listesi"))
+        self.comboBox.setItemText(0, _translate("MainWindow", "Default"))
+        self.comboBox.setItemText(1, _translate("MainWindow", "Sınıfa Göre Sırala"))
+        self.comboBox.setItemText(2, _translate("MainWindow", "Numaraya Göre Sırala"))
+        self.comboBox.setItemText(3, _translate("MainWindow", "İsime Göre Sırala"))
         self.groupBox.setTitle(_translate("MainWindow", "GroupBox"))
         self.label_2.setText(_translate("MainWindow", "Öğrenci Sorgula"))
         self.label_3.setText(_translate("MainWindow", "Numara ile"))
@@ -245,6 +273,7 @@ class Ui_MainWindow(object):
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:18px; font-weight:400; font-style:normal;\">\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8.25pt;\"><br /></p></body></html>"))
+        self.mentorNotuGuncelleInput.setPlaceholderText(_translate("MainWindow", "Mentör Notu Giriniz..."))
         self.label_6.setText(_translate("MainWindow", "Mentor Notu Ekle"))
         self.label_8.setText(_translate("MainWindow", "İsim Güncelle"))
         self.label_9.setText(_translate("MainWindow", "Numara Güncelle"))

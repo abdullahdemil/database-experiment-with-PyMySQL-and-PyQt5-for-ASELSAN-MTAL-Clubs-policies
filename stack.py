@@ -18,7 +18,7 @@ def database_tablo_olustur(connection): #? ölü fonksiyon
     cursor = connection.cursor() 
     cursor.execute('CREATE DATABASE IF NOT EXISTS okul')# Veritabanı oluştur
     print("Veritabanı oluşturuldu")
-    conn.select_db('okul') #!Veritabanını seç
+    connection.select_db('okul') #!Veritabanını seç
     cursor.execute('CREATE TABLE IF NOT EXISTS ogrenciler (id INT, name VARCHAR(20))')#* Tablo oluştur
     print("Tablo oluşturuldu")
 

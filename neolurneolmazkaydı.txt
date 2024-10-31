@@ -1,9 +1,9 @@
 import sys
 import pymysql
-from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QPushButton, QVBoxLayout
+from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QInputDialog, QPushButton, QVBoxLayout
 from PyQt5 import uic
 from stack import *
-from qtm import Ui_MainWindow
+from qtm import *
 
 # Veritabanı bağlantı fonksiyonu
 def set_connection():
@@ -57,13 +57,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Numara sorgulama butonuna tıklama olayını bağla
         self.NumaraSorguButton.clicked.connect(self.numara_sorgula)
         # İsim sorgulama butonuna tıklama olayını bağla
-        self.isimSorguButton.clicked.connect(self.isim_sorgula)
-        # Kaydet butonuna tıklama olayını bağla
-        self.duzenlemeKaydet.clicked.connect(self.duzenlemeleri_kaydet)
-        # Tabloya tıklama olayını bağla
-        self.TabloCiktisi.itemSelectionChanged.connect(self.satir_secildi)
-        # ComboBox değişiklik olayını bağla
-        self.comboBox.currentIndexChanged.connect(self.sirala)
+        self.pushButton.clicked.connect(self.isim_sorgula)
+        # Tabloya çift tıklama olayını bağla
+        self.TabloCiktisi.cellDoubleClicked.connect(self.hucre_duzenle)
 
     def tumunu_goster(self):
         tablo_ciktisi(self.TabloCiktisi, fetch_data(set_connection()))
@@ -81,12 +77,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             tablo_ciktisi(self.TabloCiktisi, data)
             # Input alanlarını temizle
             self.NumaraSorguInput.clear()
-            self.isimSorguInput.clear()
+            self.bilgiDuzenleme_2.clear()
         else:
             print("Numara giriniz.")
 
     def isim_sorgula(self):
-        isim = self.isimSorguInput.text().strip()
+        isim = self.bilgiDuzenleme_2.text().strip()
         if isim:
             connection = set_connection()
             cursor = connection.cursor()
@@ -108,79 +104,40 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             tablo_ciktisi(self.TabloCiktisi, data)
             # Input alanlarını temizle
             self.NumaraSorguInput.clear()
-            self.isimSorguInput.clear()
+            self.bilgiDuzenleme_2.clear()
         else:
             print("İsim giriniz.")
 
-    def satir_secildi(self):
-        selected_items = self.TabloCiktisi.selectedItems()
-        if selected_items:
-            row = selected_items[0].row()
-            self.isimGuncelleInput.setText(self.TabloCiktisi.item(row, 0).text())
-            self.numaraGuncelleInput.setText(self.TabloCiktisi.item(row, 1).text())
-            self.mentorNotuGuncelleInput.setText(self.TabloCiktisi.item(row, 4).text())
-            
-    def duzenlemeleri_kaydet(self):
-        selected_items = self.TabloCiktisi.selectedItems()
-        if selected_items:
-            row = selected_items[0].row()
-            numara = self.TabloCiktisi.item(row, 1).text()
-            yeni_isim = self.isimGuncelleInput.text()
-            yeni_numara = self.numaraGuncelleInput.text()
-            yeni_mentor_notu = self.mentorNotuGuncelleInput.toPlainText()
-
+    def hucre_duzenle(self, row, column):
+        # Hücredeki mevcut değeri alın
+        mevcut_deger = self.TabloCiktisi.item(row, column).text()
+        # Kullanıcıdan yeni değeri alın
+        yeni_deger, ok = QInputDialog.getText(self, "Hücreyi Düzenle", "Yeni Değer:", text=mevcut_deger)
+        if ok and yeni_deger:
+            # Tabloyu güncelle
+            self.TabloCiktisi.setItem(row, column, QTableWidgetItem(yeni_deger))
+            # Veritabanını güncelle
             connection = set_connection()
             cursor = connection.cursor()
-            sql = "UPDATE matlist SET isimSoyisim = %s, Numara = %s, mentornotu = %s WHERE Numara = %s"
-            cursor.execute(sql, (yeni_isim, yeni_numara, yeni_mentor_notu, numara))
+            # Satırdaki numarayı alın
+            numara = self.TabloCiktisi.item(row, 1).text()
+            # Sütun adını alın
+            sutun_adi = self.TabloCiktisi.horizontalHeaderItem(column).text()
+            # SQL sorgusunu oluşturun
+            sql = f"UPDATE matlist SET {sutun_adi} = %s WHERE Numara = %s"
+            cursor.execute(sql, (yeni_deger, numara))
             connection.commit()
             cursor.close()
             connection.close()
-            self.tumunu_goster()
-
-    def sirala(self):
-        index = self.comboBox.currentIndex()
-        if index == 1:  # Sınıfa Göre Sırala
-            self.sinifa_gore_sirala()
-        elif index == 2:  # Numaraya Göre Sırala
-            self.TabloCiktisi.sortItems(1, order=0)  # 1: Numara sütununun indeksi
-        elif index == 3:  # İsime Göre Sırala
-            self.TabloCiktisi.sortItems(0, order=0)  # 0: isimSoyisim sütununun indeksi
-        else:  # Default
-            self.tumunu_goster()
-
-    def sinifa_gore_sirala(self):
-        def sinif_siralama_degeri(sinif):
-            sinif_numara_sirasi = {'12': 4, '11': 3, '10': 2, '9': 1}
-            sinif_harf_sirasi = {'H': 0, 'A': 1, 'B': 2, 'C': 3, 'D': 4}
-            try:
-                sinif_numarasi, sinif_harfi = sinif.split("/")
-                numara_degeri = sinif_numara_sirasi.get(sinif_numarasi, 0)
-                return (numara_degeri, sinif_harfi)
-            except ValueError:
-                return (0, sinif)  # Hatalı değerler için varsayılan sıralama değeri
-
-        rows = []
-        for row in range(self.TabloCiktisi.rowCount()):
-            sinif_item = self.TabloCiktisi.item(row, 2)
-            if sinif_item is not None:
-                sinif = sinif_item.text()
-                rows.append((sinif_siralama_degeri(sinif), row))
-
-        # Sınıf numaralarına göre sıralama
-        rows.sort(key=lambda x: x[0], reverse=True)
-
-        # Harfleri en sona atma
-        harfler = ['H', 'A', 'B', 'C', 'D']
-        rows = [row for row in rows if row[0][1] not in harfler] + [row for row in rows if row[0][1] in harfler]
-
-        for new_row_index, (key, original_row_index) in enumerate(rows):
-            for column in range(self.TabloCiktisi.columnCount()):
-                item = self.TabloCiktisi.takeItem(original_row_index, column)
-                self.TabloCiktisi.setItem(new_row_index, column, item)
+            print(f"{numara} numaralı öğrencinin {sutun_adi} sütunu güncellendi.")
 
 # Uygulama başlatma
 app = QApplication(sys.argv)
+print("uygulama buraya kadar geldi 2")
 window = MainWindow()
+print("uygulama buraya kadar geldi 4")
 window.show()
 sys.exit(app.exec_())
+
+# Print "helloworld" at the end
+print("helloworld")
