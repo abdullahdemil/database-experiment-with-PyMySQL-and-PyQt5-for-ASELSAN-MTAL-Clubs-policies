@@ -14,18 +14,13 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(842, 592)
+        MainWindow.setEnabled(True)
+        MainWindow.resize(953, 667)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setStyleSheet("background-color: #787878;")
         self.centralwidget.setObjectName("centralwidget")
-        self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(320, 0, 71, 41))
-        font = QtGui.QFont()
-        font.setPointSize(21)
-        self.label.setFont(font)
-        self.label.setObjectName("label")
         self.TabloCiktisi = QtWidgets.QTableWidget(self.centralwidget)
-        self.TabloCiktisi.setGeometry(QtCore.QRect(350, 120, 471, 331))
+        self.TabloCiktisi.setGeometry(QtCore.QRect(340, 60, 581, 331))
         self.TabloCiktisi.setWhatsThis("")
         self.TabloCiktisi.setStyleSheet("background-color: white;\n"
 "")
@@ -42,7 +37,7 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         self.TabloCiktisi.setHorizontalHeaderItem(3, item)
         self.horizontalLayoutWidget_2 = QtWidgets.QWidget(self.centralwidget)
-        self.horizontalLayoutWidget_2.setGeometry(QtCore.QRect(350, 70, 471, 41))
+        self.horizontalLayoutWidget_2.setGeometry(QtCore.QRect(340, 10, 571, 41))
         self.horizontalLayoutWidget_2.setObjectName("horizontalLayoutWidget_2")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget_2)
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
@@ -65,10 +60,10 @@ class Ui_MainWindow(object):
 "background-color: rgba(0,0,0,0)")
         self.label_7.setObjectName("label_7")
         self.horizontalLayout_2.addWidget(self.label_7)
-        spacerItem1 = QtWidgets.QSpacerItem(144, 29, QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum)
+        spacerItem1 = QtWidgets.QSpacerItem(190, 30, QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem1)
         self.groupBox = QtWidgets.QGroupBox(self.centralwidget)
-        self.groupBox.setGeometry(QtCore.QRect(10, 90, 298, 374))
+        self.groupBox.setGeometry(QtCore.QRect(0, 30, 298, 374))
         self.groupBox.setStyleSheet("background-color: #8c8c8c;")
         self.groupBox.setObjectName("groupBox")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.groupBox)
@@ -84,6 +79,7 @@ class Ui_MainWindow(object):
         self.label_2 = QtWidgets.QLabel(self.groupBox)
         self.label_2.setStyleSheet("font-size: 26px;\n"
 "background-color: rgba(97, 72, 85, 0);\n"
+"text-decoration: underline;\n"
 "")
         self.label_2.setObjectName("label_2")
         self.horizontalLayout.addWidget(self.label_2)
@@ -129,37 +125,90 @@ class Ui_MainWindow(object):
         self.label_4.setFont(font)
         self.label_4.setObjectName("label_4")
         self.formLayout.setWidget(7, QtWidgets.QFormLayout.LabelRole, self.label_4)
-        self.bilgiDuzenleme_2 = QtWidgets.QLineEdit(self.groupBox)
+        self.isimSorguInput = QtWidgets.QLineEdit(self.groupBox)
         font = QtGui.QFont()
         font.setPointSize(-1)
-        self.bilgiDuzenleme_2.setFont(font)
-        self.bilgiDuzenleme_2.setStyleSheet("background-color: white;\n"
+        self.isimSorguInput.setFont(font)
+        self.isimSorguInput.setStyleSheet("background-color: white;\n"
 "font-size: 14px;\n"
 "border-width: 3px;  \n"
 "border-style: solid; \n"
 "border-color: black;  \n"
 "border-radius: 5px;  ")
-        self.bilgiDuzenleme_2.setText("")
-        self.bilgiDuzenleme_2.setObjectName("bilgiDuzenleme_2")
-        self.formLayout.setWidget(7, QtWidgets.QFormLayout.FieldRole, self.bilgiDuzenleme_2)
-        self.pushButton = QtWidgets.QPushButton(self.groupBox)
+        self.isimSorguInput.setText("")
+        self.isimSorguInput.setObjectName("isimSorguInput")
+        self.formLayout.setWidget(7, QtWidgets.QFormLayout.FieldRole, self.isimSorguInput)
+        self.isimSorguButton = QtWidgets.QPushButton(self.groupBox)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.pushButton.sizePolicy().hasHeightForWidth())
-        self.pushButton.setSizePolicy(sizePolicy)
-        self.pushButton.setStyleSheet("background-color: #c4c4c4;\n"
+        sizePolicy.setHeightForWidth(self.isimSorguButton.sizePolicy().hasHeightForWidth())
+        self.isimSorguButton.setSizePolicy(sizePolicy)
+        self.isimSorguButton.setStyleSheet("background-color: #c4c4c4;\n"
 "font-size: 17px;")
-        self.pushButton.setAutoRepeatInterval(100)
-        self.pushButton.setObjectName("pushButton")
-        self.formLayout.setWidget(8, QtWidgets.QFormLayout.FieldRole, self.pushButton)
+        self.isimSorguButton.setAutoRepeatInterval(100)
+        self.isimSorguButton.setObjectName("isimSorguButton")
+        self.formLayout.setWidget(8, QtWidgets.QFormLayout.FieldRole, self.isimSorguButton)
         spacerItem6 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.formLayout.setItem(9, QtWidgets.QFormLayout.FieldRole, spacerItem6)
         self.SorgulamaMenusu.addLayout(self.formLayout)
         self.verticalLayout.addLayout(self.SorgulamaMenusu)
+        self.label_5 = QtWidgets.QLabel(self.centralwidget)
+        self.label_5.setGeometry(QtCore.QRect(340, 410, 291, 41))
+        self.label_5.setStyleSheet("font-size: 26px;\n"
+"background-color: rgba(97, 72, 85, 0);\n"
+"text-decoration: underline;\n"
+"")
+        self.label_5.setObjectName("label_5")
+        self.mentorNotuGuncelleInput = QtWidgets.QTextEdit(self.centralwidget)
+        self.mentorNotuGuncelleInput.setGeometry(QtCore.QRect(340, 490, 231, 81))
+        self.mentorNotuGuncelleInput.setStyleSheet("background-color: white;\n"
+"font-size: 18px;")
+        self.mentorNotuGuncelleInput.setObjectName("mentorNotuGuncelleInput")
+        self.label_6 = QtWidgets.QLabel(self.centralwidget)
+        self.label_6.setGeometry(QtCore.QRect(340, 463, 111, 20))
+        self.label_6.setStyleSheet("font-size: 14px;\n"
+"background-color: rgba(97, 72, 85, 0);\n"
+"text-decoration: underline;\n"
+"")
+        self.label_6.setObjectName("label_6")
+        self.isimGuncelleInput = QtWidgets.QLineEdit(self.centralwidget)
+        self.isimGuncelleInput.setGeometry(QtCore.QRect(590, 510, 113, 20))
+        self.isimGuncelleInput.setStyleSheet("background-color: white;\n"
+"font-size: 13px;")
+        self.isimGuncelleInput.setObjectName("isimGuncelleInput")
+        self.numaraGuncelleInput = QtWidgets.QLineEdit(self.centralwidget)
+        self.numaraGuncelleInput.setGeometry(QtCore.QRect(590, 550, 113, 20))
+        self.numaraGuncelleInput.setStyleSheet("background-color: white;\n"
+"font-size: 13px;")
+        self.numaraGuncelleInput.setObjectName("numaraGuncelleInput")
+        self.label_8 = QtWidgets.QLabel(self.centralwidget)
+        self.label_8.setGeometry(QtCore.QRect(590, 490, 71, 21))
+        self.label_8.setStyleSheet("background-color: rgba(97, 72, 85, 0);")
+        self.label_8.setObjectName("label_8")
+        self.label_9 = QtWidgets.QLabel(self.centralwidget)
+        self.label_9.setGeometry(QtCore.QRect(590, 530, 91, 16))
+        self.label_9.setStyleSheet("background-color: rgba(97, 72, 85, 0);")
+        self.label_9.setObjectName("label_9")
+        self.duzenlemeKaydet = QtWidgets.QPushButton(self.centralwidget)
+        self.duzenlemeKaydet.setGeometry(QtCore.QRect(600, 420, 121, 31))
+        self.duzenlemeKaydet.setStyleSheet("background-color: #c4c4c4;\n"
+"font-size: 14px;")
+        self.duzenlemeKaydet.setObjectName("duzenlemeKaydet")
+        self.line = QtWidgets.QFrame(self.centralwidget)
+        self.line.setGeometry(QtCore.QRect(340, 390, 381, 20))
+        self.line.setStyleSheet("")
+        self.line.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line.setObjectName("line")
+        self.line_2 = QtWidgets.QFrame(self.centralwidget)
+        self.line_2.setGeometry(QtCore.QRect(320, 30, 16, 361))
+        self.line_2.setFrameShape(QtWidgets.QFrame.VLine)
+        self.line_2.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_2.setObjectName("line_2")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 842, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 953, 21))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -172,7 +221,6 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.label.setText(_translate("MainWindow", "DKS"))
         item = self.TabloCiktisi.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "isim_Soyisim"))
         item = self.TabloCiktisi.horizontalHeaderItem(1)
@@ -187,10 +235,20 @@ class Ui_MainWindow(object):
         self.label_2.setText(_translate("MainWindow", "Öğrenci Sorgula"))
         self.label_3.setText(_translate("MainWindow", "Numara ile"))
         self.NumaraSorguInput.setPlaceholderText(_translate("MainWindow", "Numara Giriniz..."))
-        self.NumaraSorguButton.setText(_translate("MainWindow", "Onayla"))
+        self.NumaraSorguButton.setText(_translate("MainWindow", "Ara"))
         self.label_4.setText(_translate("MainWindow", "İsim ile"))
-        self.bilgiDuzenleme_2.setPlaceholderText(_translate("MainWindow", "İsim Giriniz..."))
-        self.pushButton.setText(_translate("MainWindow", "Onayla"))
+        self.isimSorguInput.setPlaceholderText(_translate("MainWindow", "İsim Giriniz..."))
+        self.isimSorguButton.setText(_translate("MainWindow", "Ara"))
+        self.label_5.setText(_translate("MainWindow", "Öğrenci Düzenle"))
+        self.mentorNotuGuncelleInput.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:18px; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8.25pt;\"><br /></p></body></html>"))
+        self.label_6.setText(_translate("MainWindow", "Mentor Notu Ekle"))
+        self.label_8.setText(_translate("MainWindow", "İsim Güncelle"))
+        self.label_9.setText(_translate("MainWindow", "Numara Güncelle"))
+        self.duzenlemeKaydet.setText(_translate("MainWindow", "Kaydet"))
 
 
 if __name__ == "__main__":

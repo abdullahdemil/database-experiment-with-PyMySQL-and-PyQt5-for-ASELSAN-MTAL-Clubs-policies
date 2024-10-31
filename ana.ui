@@ -2,12 +2,15 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>969</width>
-    <height>592</height>
+    <width>953</width>
+    <height>667</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,29 +20,11 @@
    <property name="styleSheet">
     <string notr="true">background-color: #787878;</string>
    </property>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>320</x>
-      <y>0</y>
-      <width>71</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>21</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>DKS</string>
-    </property>
-   </widget>
    <widget class="QTableWidget" name="TabloCiktisi">
     <property name="geometry">
      <rect>
-      <x>350</x>
-      <y>120</y>
+      <x>340</x>
+      <y>60</y>
       <width>581</width>
       <height>331</height>
      </rect>
@@ -128,8 +113,8 @@
    <widget class="QWidget" name="horizontalLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>350</x>
-      <y>70</y>
+      <x>340</x>
+      <y>10</y>
       <width>571</width>
       <height>41</height>
      </rect>
@@ -203,8 +188,8 @@ background-color: rgba(0,0,0,0)</string>
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>90</y>
+      <x>0</x>
+      <y>30</y>
       <width>298</width>
       <height>374</height>
      </rect>
@@ -244,6 +229,7 @@ background-color: rgba(0,0,0,0)</string>
            <property name="styleSheet">
             <string notr="true">font-size: 26px;
 background-color: rgba(97, 72, 85, 0);
+text-decoration: underline;
 </string>
            </property>
            <property name="text">
@@ -327,7 +313,7 @@ border-radius: 5px;  </string>
 font-size: 17px;</string>
            </property>
            <property name="text">
-            <string>Onayla</string>
+            <string>Ara</string>
            </property>
            <property name="autoRepeatInterval">
             <number>100</number>
@@ -360,7 +346,7 @@ font-size: 17px;</string>
           </widget>
          </item>
          <item row="7" column="1">
-          <widget class="QLineEdit" name="bilgiDuzenleme_2">
+          <widget class="QLineEdit" name="isimSorguInput">
            <property name="font">
             <font>
              <pointsize>-1</pointsize>
@@ -383,7 +369,7 @@ border-radius: 5px;  </string>
           </widget>
          </item>
          <item row="8" column="1">
-          <widget class="QPushButton" name="pushButton">
+          <widget class="QPushButton" name="isimSorguButton">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -395,7 +381,7 @@ border-radius: 5px;  </string>
 font-size: 17px;</string>
            </property>
            <property name="text">
-            <string>Onayla</string>
+            <string>Ara</string>
            </property>
            <property name="autoRepeatInterval">
             <number>100</number>
@@ -421,13 +407,181 @@ font-size: 17px;</string>
      </item>
     </layout>
    </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>410</y>
+      <width>291</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size: 26px;
+background-color: rgba(97, 72, 85, 0);
+text-decoration: underline;
+</string>
+    </property>
+    <property name="text">
+     <string>Öğrenci Düzenle</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="mentorNotuGuncelleInput">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>490</y>
+      <width>231</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: white;
+font-size: 18px;</string>
+    </property>
+    <property name="html">
+     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:18px; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8.25pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="placeholderText">
+     <string>Mentör Notu Giriniz...</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>463</y>
+      <width>111</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size: 14px;
+background-color: rgba(97, 72, 85, 0);
+text-decoration: underline;
+</string>
+    </property>
+    <property name="text">
+     <string>Mentor Notu Ekle</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="isimGuncelleInput">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>510</y>
+      <width>113</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: white;
+font-size: 13px;</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="numaraGuncelleInput">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>550</y>
+      <width>113</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: white;
+font-size: 13px;</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>490</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(97, 72, 85, 0);</string>
+    </property>
+    <property name="text">
+     <string>İsim Güncelle</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_9">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>530</y>
+      <width>91</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(97, 72, 85, 0);</string>
+    </property>
+    <property name="text">
+     <string>Numara Güncelle</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="duzenlemeKaydet">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>420</y>
+      <width>121</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #c4c4c4;
+font-size: 14px;</string>
+    </property>
+    <property name="text">
+     <string>Kaydet</string>
+    </property>
+   </widget>
+   <widget class="Line" name="line">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>390</y>
+      <width>381</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_2">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>30</y>
+      <width>16</width>
+      <height>361</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>969</width>
+     <width>953</width>
      <height>21</height>
     </rect>
    </property>

@@ -1,13 +1,13 @@
 import sys
 import pymysql
-from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem
+from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QPushButton, QVBoxLayout
 from PyQt5 import uic
 from stack import *
 from qtm import *
 
 # Veritabanı bağlantı fonksiyonu
 def set_connection():
-    return pymysql.connect( # Bağlantıyı kur (bunu main.py'de tutmak en iyisi)
+    return pymysql.connect(
         host='localhost',
         user='root',
         port=3306,
@@ -18,9 +18,8 @@ def set_connection():
     )
 
 # Tüm kayıtları almak için fonksiyon
-def fetch_data(connection): # Veritabanından veri çeksin diye connectionu başta veriyom
-    cursor = connection.cursor() # fonksiyona özel açılır kapanır cursor <33
-    # Verileri çek
+def fetch_data(connection):
+    cursor = connection.cursor()
     cursor.execute("SELECT * FROM okul.matlist")
     data = cursor.fetchall()
     cursor.close()
@@ -43,7 +42,7 @@ def tablo_ciktisi(tablo, data):
     for i, row in enumerate(data):
         for j, (key, value) in enumerate(row.items()):
             tablo.setItem(i, j, QTableWidgetItem(str(value)))
-        print("Listelenen satırlar: " + str(i+1)) #konsolda log almak için koydum. Doğru satır numarasını versin diye de "i+1" yaptım.
+        print("Listelenen satırlar: " + str(i+1))
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -58,7 +57,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Numara sorgulama butonuna tıklama olayını bağla
         self.NumaraSorguButton.clicked.connect(self.numara_sorgula)
         # İsim sorgulama butonuna tıklama olayını bağla
-        self.pushButton.clicked.connect(self.isim_sorgula)
+        self.isimSorguButton.clicked.connect(self.isim_sorgula)
+        # Kaydet butonuna tıklama olayını bağla
+        self.duzenlemeKaydet.clicked.connect(self.duzenlemeleri_kaydet)
+        # Tabloya tıklama olayını bağla
+        self.TabloCiktisi.itemSelectionChanged.connect(self.satir_secildi)
 
     def tumunu_goster(self):
         tablo_ciktisi(self.TabloCiktisi, fetch_data(set_connection()))
@@ -76,36 +79,87 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             tablo_ciktisi(self.TabloCiktisi, data)
             # Input alanlarını temizle
             self.NumaraSorguInput.clear()
-            self.bilgiDuzenleme_2.clear()
+            self.isimSorguInput.clear()
         else:
             print("Numara giriniz.")
 
     def isim_sorgula(self):
-        isim = self.bilgiDuzenleme_2.text().strip()
+        isim = self.isimSorguInput.text().strip()
         if isim:
             connection = set_connection()
             cursor = connection.cursor()
-            # Türkçe karakter duyarlılığı için sorguyu düzenleyin
+            # Girilen ismi parçalara ayırın
+            isim_parcalari = isim.split()
+            # SQL sorgusunu oluşturun
             sql = """
             SELECT * FROM matlist 
-            WHERE LOWER(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(isimSoyisim, 'ı', 'i'), 'ü', 'u'), 'ö', 'o'), 'ç', 'c'), 'ş', 's'), 'ğ', 'g')) 
-            LIKE LOWER(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(%s, 'ı', 'i'), 'ü', 'u'), 'ö', 'o'), 'ç', 'c'), 'ş', 's'), 'ğ', 'g'))
+            WHERE 
             """
-            cursor.execute(sql, ('%' + isim + '%',))
+            sql += " AND ".join([
+                "LOWER(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(isimSoyisim, 'ı', 'i'), 'ü', 'u'), 'ö', 'o'), 'ç', 'c'), 'ş', 's'), 'ğ', 'g')) LIKE LOWER(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(%s, 'ı', 'i'), 'ü', 'u'), 'ö', 'o'), 'ç', 'c'), 'ş', 's'), 'ğ', 'g'))"
+                for _ in isim_parcalari
+            ])
+            cursor.execute(sql, ['%' + parca + '%' for parca in isim_parcalari])
             data = cursor.fetchall()
             cursor.close()
             connection.close()
             tablo_ciktisi(self.TabloCiktisi, data)
             # Input alanlarını temizle
             self.NumaraSorguInput.clear()
-            self.bilgiDuzenleme_2.clear()
+            self.isimSorguInput.clear()
         else:
             print("İsim giriniz.")
 
+    def satir_secildi(self):
+        selected_items = self.TabloCiktisi.selectedItems()
+        if selected_items:
+            row = selected_items[0].row()
+            self.isimGuncelleInput.setText(self.TabloCiktisi.item(row, 0).text())
+            self.numaraGuncelleInput.setText(self.TabloCiktisi.item(row, 1).text())
+            self.mentorNotuGuncelleInput.setText(self.TabloCiktisi.item(row, 4).text())
+
+    def duzenlemeleri_kaydet(self):
+        selected_items = self.TabloCiktisi.selectedItems()
+        if selected_items:
+            row = selected_items[0].row()
+            numara = self.TabloCiktisi.item(row, 1).text()
+            yeni_isim = self.isimGuncelleInput.text()
+            yeni_numara = self.numaraGuncelleInput.text()
+            yeni_mentor_notu = self.mentorNotuGuncelleInput.toPlainText()
+
+            connection = set_connection()
+            cursor = connection.cursor()
+            sql = "UPDATE matlist SET isimSoyisim = %s, Numara = %s, mentornotu = %s WHERE Numara = %s"
+            cursor.execute(sql, (yeni_isim, yeni_numara, yeni_mentor_notu, numara))
+            connection.commit()
+            cursor.close()
+            connection.close()
+            self.tumunu_goster()
+
+    # def hucre_guncelle(self, item):
+    #     row = item.row()
+    #     column = item.column()
+    #     yeni_deger = item.text()
+    #     # Veritabanını güncelle
+    #     connection = set_connection()
+    #     cursor = connection.cursor()
+    #     # Satırdaki numarayı alın
+    #     numara_item = self.TabloCiktisi.item(row, 1)
+    #     if numara_item is not None:
+    #         numara = numara_item.text()
+    #         # Sütun adını alın
+    #         sutun_adi = self.TabloCiktisi.horizontalHeaderItem(column).text()
+    #         # SQL sorgusunu oluşturun
+    #         sql = f"UPDATE matlist SET {sutun_adi} = %s WHERE Numara = %s"
+    #         cursor.execute(sql, (yeni_deger, numara))
+    #         connection.commit()
+    #         cursor.close()
+    #         connection.close()
+    #     else:
+    #         print("Numara bulunamadı.")
+
 # Uygulama başlatma
 app = QApplication(sys.argv)
-print("uygulama buraya kadar geldi 2")
 window = MainWindow()
-print("uygulama buraya kadar geldi 4")
 window.show()
 sys.exit(app.exec_())

@@ -8,7 +8,7 @@ def set_connection():
         host='localhost',
         user='root',
         port=3306,
-        password='',
+        password='yaaa2121',
         charset='utf8mb4',
         cursorclass=pymysql.cursors.DictCursor,
         database='okul'
