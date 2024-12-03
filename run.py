@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QPushBu
 from PyQt5 import uic
 from stack import *
 from qtm import *
-
+from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem
 # Veritabanı bağlantı fonksiyonu
 def set_connection():
     return pymysql.connect(
@@ -136,27 +136,47 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             connection.close()
             self.tumunu_goster()
 
-    # def hucre_guncelle(self, item):
-    #     row = item.row()
-    #     column = item.column()
-    #     yeni_deger = item.text()
-    #     # Veritabanını güncelle
-    #     connection = set_connection()
-    #     cursor = connection.cursor()
-    #     # Satırdaki numarayı alın
-    #     numara_item = self.TabloCiktisi.item(row, 1)
-    #     if numara_item is not None:
-    #         numara = numara_item.text()
-    #         # Sütun adını alın
-    #         sutun_adi = self.TabloCiktisi.horizontalHeaderItem(column).text()
-    #         # SQL sorgusunu oluşturun
-    #         sql = f"UPDATE matlist SET {sutun_adi} = %s WHERE Numara = %s"
-    #         cursor.execute(sql, (yeni_deger, numara))
-    #         connection.commit()
-    #         cursor.close()
-    #         connection.close()
-    #     else:
-    #         print("Numara bulunamadı.")
+    def sirala(self):
+        index = self.comboBox.currentIndex()
+        if index == 1:  # Sınıfa Göre Sırala
+            self.sinifa_gore_sirala()
+        elif index == 2:  # Numaraya Göre Sırala
+            self.TabloCiktisi.sortItems(1, order=0)  # 1: Numara sütununun indeksi
+        elif index == 3:  # İsime Göre Sırala
+            self.TabloCiktisi.sortItems(0, order=0)  # 0: isimSoyisim sütununun indeksi
+        else:  # Default
+            self.tumunu_goster()
+
+    def sinifa_gore_sirala(self):
+        def sinif_siralama_degeri(sinif):
+            sinif_numara_sirasi = {'12': 4, '11': 3, '10': 2, '9': 1}
+            sinif_harf_sirasi = {'H': 0, 'A': 1, 'B': 2, 'C': 3, 'D': 4}
+            try:
+                sinif_numarasi, sinif_harfi = sinif.split("/")
+                numara_degeri = sinif_numara_sirasi.get(sinif_numarasi, 0)
+                harf_degeri = sinif_harf_sirasi.get(sinif_harfi, 5)
+                return (numara_degeri, harf_degeri)
+            except ValueError:
+                return (0, 5)  # Hatalı değerler için varsayılan sıralama değeri
+
+        rows = []
+        for row in range(self.TabloCiktisi.rowCount()):
+            sinif_item = self.TabloCiktisi.item(row, 2)
+            if sinif_item is not None:
+                sinif = sinif_item.text()
+                rows.append((sinif_siralama_degeri(sinif), row))
+
+        # Sınıf numaralarına göre sıralama
+        rows.sort(key=lambda x: x[0], reverse=True)
+
+        # Harfleri en sona atma
+        harfler = ['H', 'A', 'B', 'C', 'D']
+        rows = [row for row in rows if row[0][1] not in harfler] + [row for row in rows if row[0][1] in harfler]
+
+        for new_row_index, (key, original_row_index) in enumerate(rows):
+            for column in range(self.TabloCiktisi.columnCount()):
+                item = self.TabloCiktisi.takeItem(original_row_index, column)
+                self.TabloCiktisi.setItem(new_row_index, column, item)
 
 # Uygulama başlatma
 app = QApplication(sys.argv)
